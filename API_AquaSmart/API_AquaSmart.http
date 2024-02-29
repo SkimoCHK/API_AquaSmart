@@ -1,0 +1,6 @@
+@API_AquaSmart_HostAddress = http://localhost:5048
+
+GET {{API_AquaSmart_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
