@@ -10,7 +10,7 @@ namespace API_AquaSmart.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
 
-        public string id = string.Empty;
+        public string id { get; set; } = string.Empty;
 
         [BsonElement("Nombre")]
         public string Nombre { get; set; } = string.Empty;
