@@ -1,5 +1,6 @@
 
 using API_AquaSmart.Configuration;
+using API_AquaSmart.Services;
 using MongoDB.Driver;
 
 namespace API_AquaSmart
@@ -17,6 +18,7 @@ namespace API_AquaSmart
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton<AreaServices>();
 
             var app = builder.Build();
 
