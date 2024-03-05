@@ -11,12 +11,14 @@ namespace API_AquaSmart.Services
     public class AreaServices
     {
         private readonly IMongoCollection<Area> _areasCollection;
+        private readonly IMongoCollection<HorarioRiego> _horarioRiego;
 
         public AreaServices(IOptions<DataBaseSettings> databaseSettings)
         {
             var client = new MongoClient(databaseSettings.Value.ConnectionString);
             var database = client.GetDatabase(databaseSettings.Value.DatabaseName);
-            _areasCollection = database.GetCollection<Area>(databaseSettings.Value.Collections["HorarioRiego"]);
+            _areasCollection = database.GetCollection<Area>(databaseSettings.Value.Collections["Areas"]);
+            _horarioRiego = database.GetCollection<HorarioRiego>(databaseSettings.Value.Collections["HorarioRiego"]);
         }
         public async Task<List<Area>> getAsync()
         {
@@ -24,12 +26,20 @@ namespace API_AquaSmart.Services
         }
         public async Task<Area> GetAreaById(string ID)
         {
-            return await _areasCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(ID) } }).Result.FirstAsync();
+            var area = await _areasCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(ID) } }).Result.FirstAsync();
+            var riego = await _horarioRiego.FindAsync(new BsonDocument { { "_id", new ObjectId(area.refHorarioId) } }).Result.FirstAsync();
+            area.horarioRiego = riego;
+            return area;
         }
 
-        public async Task InsertArea(Area area)
+        public async Task InsertArea(AreaDTO area)
         {
-            await _areasCollection.InsertOneAsync(area);
+            Area newArea = new ()
+            {
+                Nombre = area.Nombre,
+                refHorarioId = area.refHorarioId
+            };
+            await _areasCollection.InsertOneAsync(newArea);
         }
 
         public async Task UpdateArea(Area area)

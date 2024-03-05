@@ -31,7 +31,7 @@ namespace API_AquaSmart.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateArea([FromBody] Area area)
+        public async Task<IActionResult> CreateArea([FromBody] AreaDTO area)
         {
             if (area == null)
                 return BadRequest();

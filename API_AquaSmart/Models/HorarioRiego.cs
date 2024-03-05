@@ -18,8 +18,10 @@ namespace API_AquaSmart.Models
         public DateTime HoraInicio { get; set; }
 
         [BsonElement("HoraFin")]
+        
         public DateTime HoraFin { get; set; }
 
+        
 
     }
 }
