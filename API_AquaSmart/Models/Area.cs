@@ -15,6 +15,9 @@ namespace API_AquaSmart.Models
         [BsonElement("Nombre")]
         public string Nombre { get; set; } = string.Empty;
 
+        [BsonElement("IdHorario")]
+        public HorarioRiego refHorario { get; set; }
+
 
     }
     

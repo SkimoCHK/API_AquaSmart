@@ -17,7 +17,7 @@ namespace API_AquaSmart.Services
         {
             var client =  new MongoClient(databaseSettings.Value.ConnectionString);
             var database = client.GetDatabase(databaseSettings.Value.DatabaseName);
-            _horarioRiegoCollection = database.GetCollection<HorarioRiego>(databaseSettings.Value.CollectionName2);
+            _horarioRiegoCollection = database.GetCollection<HorarioRiego>(databaseSettings.Value.Collections["HorarioRiego"]);
         }
 
         public async Task<List<HorarioRiego>> GetHorarios()
@@ -35,18 +35,18 @@ namespace API_AquaSmart.Services
           await  _horarioRiegoCollection.InsertOneAsync(horario);
         }
 
-
-        public async Task UpdateArea(HorarioRiego horarioriego)
+        public async Task UpdateHorario(HorarioRiego horario)
         {
-            var filter = Builders<HorarioRiego>.Filter.Eq(s => s.Id, horarioriego.Id);
-            await _horarioRiegoCollection.ReplaceOneAsync(filter, horarioriego);
+            var filter = Builders<HorarioRiego>.Filter.Eq(c => c.Id, horario.Id);
+            await _horarioRiegoCollection.ReplaceOneAsync(filter, horario);
         }
 
-        //public async Task DeleteArea(string ID)
-        //{
-        //    var filter = Builders<Area>.Filter.Eq(s => s.id, ID);
-        //    await _horarioRiegoCollection.DeleteOneAsync(filter);
-        //}
+
+        public async Task DeleteHorario(string id)
+        {
+            var filter = Builders<HorarioRiego>.Filter.Eq(s => s.Id, id);
+            await _horarioRiegoCollection.DeleteOneAsync(filter);
+        }
 
 
     }
