@@ -18,6 +18,7 @@ namespace API_AquaSmart.Services
             var client = new MongoClient(databaseSettings.Value.ConnectionString);
             var database = client.GetDatabase(databaseSettings.Value.DatabaseName);
             _areasCollection = database.GetCollection<Area>(databaseSettings.Value.Collections["Areas"]);
+
         }
         public async Task<List<Area>> getAsync()
         {
