@@ -21,6 +21,7 @@ namespace API_AquaSmart
             //builder.Services.AddSingleton<AreaServices>();
             builder.Services.AddScoped<HorarioRiegoServices>();
             builder.Services.AddScoped<AreaServices>();
+            builder.Services.AddScoped<SensorHumedadServices>();
 
             var app = builder.Build();
 

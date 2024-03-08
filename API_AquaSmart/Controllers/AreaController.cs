@@ -13,6 +13,35 @@ namespace API_AquaSmart.Controllers
         private readonly ILogger<AreaController> _logger;
         private readonly AreaServices _areaServices;
 
+        
+        [HttpPost("activar-riego")]
+        public async Task<IActionResult> ActivarRiego([FromBody] ActivarRiegoRequest request)
+        {
+            try
+            {
+                   
+                var area = await _areaServices.GetAreaById(request.AreaId);
+
+          
+                area.HistorialRiego.Add(new RiegoEvent
+                {
+                    Fecha = DateTime.Now,
+                    Duracion = request.Duracion
+                });
+
+               
+                await _areaServices.UpdateArea(area);
+
+                return Ok("Riego activado y registrado correctamente.");
+            }
+            catch (Exception ex)
+            {
+               
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
+
+
         public AreaController(ILogger<AreaController> logger, AreaServices areaServices)
         {
             _logger = logger;
@@ -31,7 +60,7 @@ namespace API_AquaSmart.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateArea([FromBody] AreaDTO area)
+        public async Task<IActionResult> CreateArea([FromBody] Area area)
         {
             if (area == null)
                 return BadRequest();
