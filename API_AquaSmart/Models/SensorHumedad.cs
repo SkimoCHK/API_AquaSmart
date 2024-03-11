@@ -1,12 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_AquaSmart.Models
 {
     public class SensorHumedad
     {
-        [JsonIgnore]
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = string.Empty;
@@ -20,6 +20,7 @@ namespace API_AquaSmart.Models
     }
     public class DatosHumedadDTO
     {
+        [Required(ErrorMessage ="El id es requerido")]
         public string IdSensor { get; set; }
         public int ValorActualHumedad { get; set; }
     }

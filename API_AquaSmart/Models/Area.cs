@@ -19,15 +19,17 @@ namespace API_AquaSmart.Models
 
         [BsonElement("IdSensor")]
         [BsonRepresentation(BsonType.ObjectId)]
+        [JsonIgnore]
         public string IdSensor { get; set; } = string.Empty;
-        public SensorHumedad? SensorHumedad { get; set; }
+        public SensorHumedad SensorHumedad { get; set; }
 
         [BsonElement("IdValvula")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string IdValvula { get; set; } = string.Empty;
-        public ElectroValvula? valvula { get; set; }
-
         [JsonIgnore]
+        public string IdValvula { get; set; } = string.Empty;
+        public ElectroValvula valvula { get; set; }
+
+        
         [BsonElement("HistorialRiego")]
         public List<RiegoEvent> HistorialRiego { get; set; } = new List<RiegoEvent>();
 

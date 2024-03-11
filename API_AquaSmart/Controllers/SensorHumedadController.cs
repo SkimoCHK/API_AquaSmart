@@ -42,7 +42,7 @@ namespace API_AquaSmart.Controllers
     
 
 
-    [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetSensoresHumedad()
         {
             var sensoresHumedad = await _sensorHumedadServices.GetSensoresHumedadAsync();
