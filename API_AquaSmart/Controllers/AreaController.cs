@@ -104,8 +104,8 @@ namespace API_AquaSmart.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateArea([FromBody] AreaDTO areaDTO, string ID)
+        [HttpPut("{ID}")]
+        public async Task<IActionResult> UpdateArea(string ID, [FromBody] AreaDTO areaDTO )
         {
             var sensor = await _sensorservices.GetSensorHumedadById(areaDTO.refSensor);
             var valvulap = await _valvulaServices.GetValvulaById(areaDTO.refValvula);
