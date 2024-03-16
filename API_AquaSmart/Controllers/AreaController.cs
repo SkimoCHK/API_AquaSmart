@@ -71,16 +71,6 @@ namespace API_AquaSmart.Controllers
         public async Task<IActionResult> getAreas()
         {
             var areas = await _areaServices.getAsync();
-
-            foreach(var area in areas)
-            {
-                var sensor = await  _sensorservices.GetSensorHumedadById(area.IdSensor);
-                var valvula = await _valvulaServices.GetValvulaById(area.IdValvula);
-
-                area.SensorHumedad = sensor;
-                area.valvula = valvula;
-            }
-
             return Ok(areas);
         }
         [HttpGet("{id}")]
@@ -88,10 +78,6 @@ namespace API_AquaSmart.Controllers
         {
             
             var area = await _areaServices.GetAreaById(id);
-            var sensor = await _sensorservices.GetSensorHumedadById(area.IdSensor);
-            var valvula = await _valvulaServices.GetValvulaById(area.IdValvula);
-            area.SensorHumedad = sensor;
-            area.valvula = valvula;
             return Ok(area);
 
         }
@@ -99,6 +85,8 @@ namespace API_AquaSmart.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateArea([FromBody] AreaDTO areaDTO)
         {
+            var sensor = await _sensorservices.GetSensorHumedadById(areaDTO.refSensor);
+            var valvulap = await _valvulaServices.GetValvulaById(areaDTO.refValvula);
 
             var area = new Area()
             {
@@ -106,8 +94,11 @@ namespace API_AquaSmart.Controllers
                 Imagen = areaDTO.Imagen,
                 IdSensor = areaDTO.refSensor,
                 IdValvula = areaDTO.refValvula,
+                SensorHumedad = sensor,
+                valvula = valvulap
                 
             };
+            
             await _areaServices.InsertArea(area);
             return Created("Created", true);
 
@@ -116,6 +107,8 @@ namespace API_AquaSmart.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDriver([FromBody] AreaDTO areaDTO, string ID)
         {
+            var sensor = await _sensorservices.GetSensorHumedadById(areaDTO.refSensor);
+            var valvulap = await _valvulaServices.GetValvulaById(areaDTO.refValvula);
 
             Area area = new()
             {
@@ -123,7 +116,10 @@ namespace API_AquaSmart.Controllers
                 Nombre = areaDTO.Nombre,
                 Imagen = areaDTO.Imagen,
                 IdSensor = areaDTO.refSensor,
-                IdValvula = areaDTO.refValvula
+                IdValvula = areaDTO.refValvula,
+                SensorHumedad = sensor,
+                valvula = valvulap
+                
             };
 
             await _areaServices.UpdateArea(area);
