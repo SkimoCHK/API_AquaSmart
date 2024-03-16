@@ -17,6 +17,9 @@ namespace API_AquaSmart.Models
         [BsonElement("Nombre")]
         public string Nombre { get; set; } = string.Empty;
 
+        [BsonElement("Imagen")]
+        public string Imagen { get; set; } = string.Empty;
+
         [BsonElement("IdSensor")]
         [BsonRepresentation(BsonType.ObjectId)]
         [JsonIgnore]
@@ -47,9 +50,11 @@ namespace API_AquaSmart.Models
 
     public class AreaDTO
     {
-        [Required]
-        [Length(8, 50, ErrorMessage = "El nombre del area debe estar entre 8 y 50 caracteres")]
+        [Required(ErrorMessage = "El nombre del area es requerido")]
         public string Nombre { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Es requerida una imagen")]
+        public string Imagen { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El id del sensor es rquerido")]
         public string refSensor { get; set; } = string.Empty;

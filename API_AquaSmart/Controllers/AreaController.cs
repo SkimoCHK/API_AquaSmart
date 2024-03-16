@@ -103,8 +103,10 @@ namespace API_AquaSmart.Controllers
             var area = new Area()
             {
                 Nombre = areaDTO.Nombre,
+                Imagen = areaDTO.Imagen,
                 IdSensor = areaDTO.refSensor,
-                IdValvula = areaDTO.refValvula
+                IdValvula = areaDTO.refValvula,
+                
             };
             await _areaServices.InsertArea(area);
             return Created("Created", true);
@@ -119,6 +121,7 @@ namespace API_AquaSmart.Controllers
             {
                 id = ID,
                 Nombre = areaDTO.Nombre,
+                Imagen = areaDTO.Imagen,
                 IdSensor = areaDTO.refSensor,
                 IdValvula = areaDTO.refValvula
             };
