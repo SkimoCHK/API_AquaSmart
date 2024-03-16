@@ -105,7 +105,7 @@ namespace API_AquaSmart.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDriver([FromBody] AreaDTO areaDTO, string ID)
+        public async Task<IActionResult> UpdateArea([FromBody] AreaDTO areaDTO, string ID)
         {
             var sensor = await _sensorservices.GetSensorHumedadById(areaDTO.refSensor);
             var valvulap = await _valvulaServices.GetValvulaById(areaDTO.refValvula);
