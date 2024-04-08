@@ -73,14 +73,43 @@ namespace API_AquaSmart.Controllers
             var areas = await _areaServices.getAsync();
             return Ok(areas);
         }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> getStatus()
+        {
+            var areas = await _areaServices.getAsync();
+            double areasON = 0;
+            double totalAreas = areas.Count();
+            foreach(var area in areas)
+            {
+                if (area.valvula != null && area.valvula.Abierta)
+                {
+                    areasON++;
+                }
+            }
+            areasON = (areasON / totalAreas) * 100;
+            
+            return Ok(Convert.ToInt32(areasON)); 
+
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> getAreaById(string id)
         {
-            
+
             var area = await _areaServices.GetAreaById(id);
             return Ok(area);
 
         }
+
+        [HttpGet("obtener-historial{id}")]
+        public async Task<IActionResult> getHistorial(string id)
+        {
+            var area = await _areaServices.GetAreaById(id);
+            return Ok(area.HistorialRiego);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateArea([FromBody] AreaDTO areaDTO)
