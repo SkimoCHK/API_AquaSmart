@@ -74,24 +74,13 @@ namespace API_AquaSmart.Controllers
             return Ok(areas);
         }
 
-        [HttpGet("status")]
-        public async Task<IActionResult> getStatus()
+        [HttpGet("obtener-areas")]
+        public async Task<IActionResult> getAreasv2()
         {
             var areas = await _areaServices.getAsync();
-            double areasON = 0;
-            double totalAreas = areas.Count();
-            foreach(var area in areas)
-            {
-                if (area.valvula != null && area.valvula.Abierta)
-                {
-                    areasON++;
-                }
-            }
-            areasON = (areasON / totalAreas) * 100;
-            
-            return Ok(Convert.ToInt32(areasON)); 
-
+            return Ok(areas);
         }
+
 
 
         [HttpGet("{id}")]
@@ -109,6 +98,19 @@ namespace API_AquaSmart.Controllers
             var area = await _areaServices.GetAreaById(id);
             return Ok(area.HistorialRiego);
         }
+
+        //[HttpGet("obtener-areas")]
+        //public async Task<IActionResult> getAreaStatus()
+        //{
+        //    var areas = await _areaServices.getAsync();
+            
+        //    foreach(var area in areas)
+        //    {
+
+        //    }
+
+        //}
+
 
 
         [HttpPost]

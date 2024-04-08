@@ -10,10 +10,12 @@ namespace API_AquaSmart.Controllers
     public class ElectroValvulaController : ControllerBase
     {
         private readonly ElectroValvulaServices _services;
+        private readonly AreaServices _areaServices;
 
-        public ElectroValvulaController(ElectroValvulaServices services)
+        public ElectroValvulaController(ElectroValvulaServices services, AreaServices areaServices)
         {
             _services = services;
+            _areaServices = areaServices;
         }
 
         [HttpPut("actualizar-status")]
@@ -24,7 +26,25 @@ namespace API_AquaSmart.Controllers
             await _services.UpdateValvula(valvula);
             return Created("Status Actualizado", true);
 
-           
+
+        }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> getStatus()
+        {
+            var areas = await _areaServices.getAsync();
+            double areasON = 0;
+            double totalAreas = areas.Count();
+            foreach (var area in areas)
+            {
+                if (area.valvula != null && area.valvula.Abierta)
+                {
+                    areasON++;
+                }
+            }
+            areasON = (areasON / totalAreas) * 100;
+
+            return Ok(Convert.ToInt32(areasON));
         }
 
         [HttpGet]

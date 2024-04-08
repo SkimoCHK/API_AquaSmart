@@ -67,9 +67,10 @@ namespace API_AquaSmart.Models
     {
         [StringLength(50, MinimumLength = 8, ErrorMessage = "La longitud del nombre del área debe estar entre 8 y 50 caracteres.")]
         public string Nombre { get; set; } = string.Empty;
-
-     
+   
     }
+
+   
 
 
 }
