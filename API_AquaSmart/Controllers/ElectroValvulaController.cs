@@ -18,16 +18,7 @@ namespace API_AquaSmart.Controllers
             _areaServices = areaServices;
         }
 
-        [HttpPut("actualizar-status")]
-        public async Task<IActionResult> CambiarStatus(ValvulaRequest valvulaxd)
-        {
-            var valvula = await _services.GetValvulaById(valvulaxd.id);
-            valvula.Abierta = valvulaxd.Status;
-            await _services.UpdateValvula(valvula);
-            return Created("Status Actualizado", true);
-
-
-        }
+ 
 
         [HttpGet("status")]
         public async Task<IActionResult> getStatus()

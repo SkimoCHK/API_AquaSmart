@@ -27,10 +27,20 @@ namespace API_AquaSmart.Services
         }
         public async Task<Area> GetAreaById(string ID)
         {
-            return await _areasCollection.FindAsync(new BsonDocument { { "_id", new ObjectId(ID) } }).Result.FirstAsync();
+            ObjectId objectId;
 
+            // Intentamos convertir la cadena de ID en un ObjectId
+            if (!ObjectId.TryParse(ID, out objectId))
+            {
+                // Si la conversión falla, lanzamos una excepción
+                throw new ArgumentException("El ID proporcionado no tiene el formato correcto.");
+            }
 
+            // Utilizamos el ObjectId convertido para buscar el área
+            return await _areasCollection.Find(new BsonDocument { { "_id", objectId } }).FirstOrDefaultAsync();
         }
+
+
 
         public async Task InsertArea(Area area)
         {

@@ -7,7 +7,5 @@ namespace API_AquaSmart.Models
         [BsonElement("Fecha")]
         public DateTime Fecha { get; set; }
 
-        [BsonElement("Duracion")]
-        public int Duracion { get; set; }
     }
 }

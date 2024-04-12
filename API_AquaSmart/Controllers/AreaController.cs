@@ -16,8 +16,6 @@ namespace API_AquaSmart.Controllers
         private readonly ElectroValvulaServices _valvulaServices;
 
 
-
-
         public AreaController(ILogger<AreaController> logger, AreaServices areaServices, ElectroValvulaServices valvulaServ, SensorHumedadServices sensorServices)
         {
             _logger = logger;
@@ -40,25 +38,33 @@ namespace API_AquaSmart.Controllers
 
         //}
 
-        [HttpPut("historial-riego")]
-        public async Task<IActionResult> ActivarRiego([FromBody] ActivarRiegoRequest request)
+        //AQUI ESTE LO MANDARIA EL WEMOS! cuando se abre la electrovalvula se activa el riego, va cambiar el status a true
+        [HttpPut("actualizar-status")]
+        public async Task<IActionResult> CambiarStatus(AreaUpdateDTO areaUpdate)
+        {
+            var area = await _areaServices.GetAreaById(areaUpdate.id);
+            area.valvula.Abierta = areaUpdate.Status;
+            await _areaServices.UpdateArea(area);
+            return Created("Status Actualizado", true);
+
+        }
+
+        ///AQUI ESTE ENDPOINT LO VA MANEJAR EL WEMOS, cuando la electrovalvula este abierta, mandara una petcion aqui para registrar el historial
+        [HttpPut("historial-riego{id}")]
+        public async Task<IActionResult> ActivarRiego(string id)
         {
             try
             {
-
-                var area = await _areaServices.GetAreaById(request.AreaId);
-
+                var area = await _areaServices.GetAreaById(id);
 
                 area.HistorialRiego.Add(new RiegoEvent
                 {
                     Fecha = DateTime.Now,
-                    Duracion = request.Duracion
                 });
-
 
                 await _areaServices.UpdateArea(area);
 
-                return Ok("Riego activado y registrado correctamente.");
+                return Ok("Riego registrado correctamente.");
             }
             catch (Exception ex)
             {

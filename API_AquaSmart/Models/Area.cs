@@ -47,7 +47,7 @@ namespace API_AquaSmart.Models
     public class ActivarRiegoRequest
     {
         public string AreaId { get; set; }
-        public int Duracion { get; set; }
+      
     }
 
 
@@ -70,9 +70,10 @@ namespace API_AquaSmart.Models
 
     public class AreaUpdateDTO
     {
-        [StringLength(50, MinimumLength = 8, ErrorMessage = "La longitud del nombre del área debe estar entre 8 y 50 caracteres.")]
-        public string Nombre { get; set; } = string.Empty;
-   
+        [Required(ErrorMessage = "Es requerido que ingreses un status")]
+        public string id { get; set; } = string.Empty;
+        public bool Status { get; set; }
+
     }
 
    
