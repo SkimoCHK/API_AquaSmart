@@ -39,9 +39,6 @@ namespace API_AquaSmart.Services
             // Utilizamos el ObjectId convertido para buscar el área
             return await _areasCollection.Find(new BsonDocument { { "_id", objectId } }).FirstOrDefaultAsync();
         }
-
-
-
         public async Task InsertArea(Area area)
         {
                 await _areasCollection.InsertOneAsync(area);

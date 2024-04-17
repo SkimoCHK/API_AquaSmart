@@ -38,6 +38,42 @@ namespace API_AquaSmart.Controllers
 
         //}
 
+
+        [HttpPut("cambiar-modo/{id}")]
+        public async Task<IActionResult> CambiarModoFuncionamiento(string id, [FromBody] bool modo)
+        {
+            try
+            {
+                var area = await _areaServices.GetAreaById(id);
+                if (area == null)
+                {
+                    return NotFound();
+                }
+
+                area.Modo = modo;
+                await _areaServices.UpdateArea(area);
+
+                return Ok($"El modo de funcionamiento del área {id} se ha actualizado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
+
+        [HttpGet("obtener-modo/{id}")]
+        public async Task<IActionResult> ObtenerModo(string id)
+        {
+            var area = await _areaServices.GetAreaById(id);
+            if (area == null)
+            {
+                return NotFound(); // o algún otro manejo de error apropiado
+            }
+            return Ok(area.Modo);
+        }
+
+
+
         //AQUI ESTE LO MANDARIA EL WEMOS! cuando se abre la electrovalvula se activa el riego, va cambiar el status a true
         [HttpPut("actualizar-status")]
         public async Task<IActionResult> CambiarStatus(AreaUpdateDTO areaUpdate)
@@ -49,7 +85,15 @@ namespace API_AquaSmart.Controllers
 
         }
 
-        ///AQUI ESTE ENDPOINT LO VA MANEJAR EL WEMOS, cuando la electrovalvula este abierta, mandara una petcion aqui para registrar el historial
+        // AQUI OBTIENE EL STATUS!!!
+        [HttpGet("obtener-status{id}")]
+        public async Task<IActionResult>ObtenerStatus(string id)
+        {
+            var area = await _areaServices.GetAreaById(id);
+            return Ok(area.valvula.Abierta);
+        }
+
+        //AQUI ESTE ENDPOINT LO VA MANEJAR EL WEMOS, cuando la electrovalvula este abierta, mandara una petcion aqui para registrar el historial
         [HttpPut("historial-riego{id}")]
         public async Task<IActionResult> ActivarRiego(string id)
         {
@@ -86,8 +130,6 @@ namespace API_AquaSmart.Controllers
             var areas = await _areaServices.getAsync();
             return Ok(areas);
         }
-
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> getAreaById(string id)
@@ -132,6 +174,7 @@ namespace API_AquaSmart.Controllers
                 IdSensor = areaDTO.refSensor,
                 IdValvula = areaDTO.refValvula,
                 SensorHumedad = sensor,
+                Modo = false,
                 valvula = valvulap
                 
             };

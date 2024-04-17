@@ -41,6 +41,9 @@ namespace API_AquaSmart.Models
         [BsonElement("HistorialRiego")]
         public List<RiegoEvent> HistorialRiego { get; set; } = new List<RiegoEvent>();
 
+        [BsonElement("Modo")]
+
+        public bool Modo { get; set; } 
 
     }
 
